@@ -1,0 +1,119 @@
+package com.git_blame_mama.grandlauncher;
+
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.BatteryManager;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity {
+
+    private TextView tvBattery;
+    private RecyclerView recyclerView;
+    private PrefsManager prefsManager;
+
+    // Ресивер для батареи
+    private final BroadcastReceiver batteryReceiver = new BroadcastReceiver() {
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+            tvBattery.setText("Заряд: " + level + "%");
+        }
+    };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        prefsManager = new PrefsManager(this);
+        tvBattery = findViewById(R.id.tvBattery);
+        recyclerView = findViewById(R.id.recyclerView);
+        Button btnSettings = findViewById(R.id.btnSettings);
+
+        // 4. Защита от случайных изменений (только долгое нажатие)
+        btnSettings.setOnClickListener(v ->
+                Toast.makeText(this, "Удерживайте кнопку для настроек", Toast.LENGTH_SHORT).show()
+        );
+        btnSettings.setOnLongClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+            return true;
+        });
+
+        // Запрашиваем права на звонки (очень важно для MVP)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, 1);
+        }
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Ничего не делаем, так как это лаунчер
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Обновляем сетку при каждом возврате на главный экран
+        setupGrid();
+        registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(batteryReceiver);
+    }
+
+    private void setupGrid() {
+        List<GridItem> items = prefsManager.getGridItems();
+        // Сетка в 2 столбца
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+
+        // ВАЖНО: Ниже псевдокод адаптера. Вам нужно создать GridAdapter,
+        // который принимает список items и назначает разные цвета (res/colors) в зависимости от item.type
+        GridAdapter adapter = new GridAdapter(items, item -> {
+            if (item.type == GridItem.Type.CONTACT || item.type == GridItem.Type.SOS) {
+                makeCall(item.data);
+            } else if (item.type == GridItem.Type.APP) {
+                launchApp(item.data);
+            }
+        });
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void makeCall(String number) {
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:" + number));
+        startActivity(callIntent);
+    }
+
+    private void launchApp(String packageName) {
+        Intent launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
+        if (launchIntent != null) {
+            startActivity(launchIntent);
+        } else {
+            Toast.makeText(this, "Приложение не найдено", Toast.LENGTH_SHORT).show();
+        }
+    }
+}
