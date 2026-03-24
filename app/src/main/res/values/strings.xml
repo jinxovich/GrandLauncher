@@ -65,4 +65,13 @@
     <string name="cell_type_app">Приложение: %1$s</string>
     <string name="cell_type_contact">Контакт: %1$s</string>
     <string name="cell_type_sos">SOS: %1$s</string>
+
+    <string name="role_status_active">● АКТИВНА</string>
+    <string name="role_status_inactive">● НЕ АКТИВНА</string>
+    <string name="role_banner_inactive_title">⚠ Защита звонков НЕ активна</string>
+    <string name="role_banner_inactive_desc">Нажмите «Включить защиту» ниже, чтобы блокировать чужие звонки</string>
+    <string name="role_banner_active_title">✓ Защита звонков активна</string>
+    <string name="role_banner_active_desc">Входящие звонки не из списка будут заблокированы автоматически</string>
+    <string name="screening_log_label">Последний перехваченный звонок:</string>
+    <string name="screening_log_empty">Ещё не было входящих с момента установки роли</string>
 </resources>

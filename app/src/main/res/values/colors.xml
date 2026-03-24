@@ -23,4 +23,6 @@
     <color name="pastel_green">#D9F7D9</color>
     <color name="pastel_blue">#DDEBFF</color>
     <color name="pastel_grey">#E6EAF2</color>
+    <color name="status_ok">#1A7A3A</color>
+    <color name="status_error">#B00020</color>
 </resources>

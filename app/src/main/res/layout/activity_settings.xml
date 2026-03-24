@@ -24,9 +24,53 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="12dp"
             android:text="@string/settings_subtitle_admin"
             android:textColor="@color/muted_text" />
+
+        <!-- Крупный баннер статуса защиты — виден сразу при открытии настроек -->
+        <LinearLayout
+            android:id="@+id/bannerRoleStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="16dp"
+            android:background="@color/tile_sos">
+
+            <TextView
+                android:id="@+id/tvRoleBannerIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⚠"
+                android:textSize="26sp"
+                android:layout_marginEnd="10dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvRoleBannerTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/role_banner_inactive_title"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="@color/main_text" />
+
+                <TextView
+                    android:id="@+id/tvRoleBannerDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/role_banner_inactive_desc"
+                    android:textSize="13sp"
+                    android:textColor="@color/main_text" />
+            </LinearLayout>
+        </LinearLayout>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -42,18 +86,35 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/section_security"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:textColor="@color/main_text" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/section_security"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@color/main_text" />
+
+                    <TextView
+                        android:id="@+id/tvRoleStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/role_status_inactive"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/status_error" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
                     android:layout_marginBottom="12dp"
                     android:text="@string/section_security_desc_admin"
                     android:textColor="@color/muted_text" />
@@ -65,6 +126,33 @@
                     android:text="@string/btn_enable_blocking"
                     android:textColor="@color/action_on_primary"
                     android:backgroundTint="@color/action_primary" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/tile_default" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/screening_log_label"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/muted_text"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    android:id="@+id/tvScreeningLog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/screening_log_empty"
+                    android:textSize="13sp"
+                    android:fontFamily="monospace"
+                    android:textColor="@color/main_text"
+                    android:background="@color/input_bg"
+                    android:padding="10dp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

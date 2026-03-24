@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.BatteryManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -49,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         Button btnSettings = findViewById(R.id.btnSettings);
 
-        // 4. Защита от случайных изменений (только долгое нажатие)
+        CallNotificationHelper.createChannel(this);
+
         btnSettings.setOnClickListener(v ->
                 Toast.makeText(this, R.string.toast_hold_for_settings, Toast.LENGTH_SHORT).show()
         );
@@ -58,10 +60,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
-        // Запрашиваем права на звонки (очень важно для MVP)
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, 1);
-        }
+        requestEssentialPermissions();
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
@@ -83,6 +82,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         unregisterReceiver(batteryReceiver);
+    }
+
+    private void requestEssentialPermissions() {
+        java.util.List<String> needed = new java.util.ArrayList<>();
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)
+                != PackageManager.PERMISSION_GRANTED) {
+            needed.add(Manifest.permission.CALL_PHONE);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+            needed.add(Manifest.permission.POST_NOTIFICATIONS);
+        }
+        if (!needed.isEmpty()) {
+            ActivityCompat.requestPermissions(this, needed.toArray(new String[0]), 1);
+        }
     }
 
     private void setupGrid() {

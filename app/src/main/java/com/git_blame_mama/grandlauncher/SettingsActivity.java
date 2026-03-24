@@ -7,6 +7,7 @@ import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +32,12 @@ public class SettingsActivity extends AppCompatActivity {
     private MainMenuCellsAdapter mainMenuCellsAdapter;
 
     private TextView tvSelectedContactIcon;
+    private TextView tvRoleStatus;
+    private TextView tvScreeningLog;
+    private View bannerRoleStatus;
+    private TextView tvRoleBannerTitle;
+    private TextView tvRoleBannerDesc;
+    private TextView tvRoleBannerIcon;
     private EditText etName;
     private EditText etNumber;
     private EditText etSosNumber;
@@ -79,6 +87,14 @@ public class SettingsActivity extends AppCompatActivity {
         etNumber = findViewById(R.id.etNumber);
         etSosNumber = findViewById(R.id.etSosNumber);
         tvSelectedContactIcon = findViewById(R.id.tvSelectedContactIcon);
+        tvRoleStatus          = findViewById(R.id.tvRoleStatus);
+        tvScreeningLog        = findViewById(R.id.tvScreeningLog);
+        bannerRoleStatus      = findViewById(R.id.bannerRoleStatus);
+        tvRoleBannerTitle     = findViewById(R.id.tvRoleBannerTitle);
+        tvRoleBannerDesc      = findViewById(R.id.tvRoleBannerDesc);
+        tvRoleBannerIcon      = findViewById(R.id.tvRoleBannerIcon);
+
+        CallNotificationHelper.createChannel(this);
 
         allowedContactsAdapter = new AllowedContactsAdapter(new AllowedContactsAdapter.OnAllowedContactActionListener() {
             @Override
@@ -148,6 +164,40 @@ public class SettingsActivity extends AppCompatActivity {
         refreshAllowedContacts();
         refreshMainCells();
         fillSosField();
+        refreshRoleStatus();
+        refreshScreeningLog();
+    }
+
+    private void refreshRoleStatus() {
+        RoleManager rm = (RoleManager) getSystemService(ROLE_SERVICE);
+        boolean held = rm != null && rm.isRoleHeld(RoleManager.ROLE_CALL_SCREENING);
+
+        // Маленький индикатор в карточке безопасности
+        if (held) {
+            tvRoleStatus.setText(R.string.role_status_active);
+            tvRoleStatus.setTextColor(ContextCompat.getColor(this, R.color.status_ok));
+        } else {
+            tvRoleStatus.setText(R.string.role_status_inactive);
+            tvRoleStatus.setTextColor(ContextCompat.getColor(this, R.color.status_error));
+        }
+
+        // Крупный баннер вверху настроек
+        if (held) {
+            bannerRoleStatus.setBackgroundColor(ContextCompat.getColor(this, R.color.tile_contact));
+            tvRoleBannerIcon.setText("✓");
+            tvRoleBannerTitle.setText(R.string.role_banner_active_title);
+            tvRoleBannerDesc.setText(R.string.role_banner_active_desc);
+        } else {
+            bannerRoleStatus.setBackgroundColor(ContextCompat.getColor(this, R.color.tile_sos));
+            tvRoleBannerIcon.setText("⚠");
+            tvRoleBannerTitle.setText(R.string.role_banner_inactive_title);
+            tvRoleBannerDesc.setText(R.string.role_banner_inactive_desc);
+        }
+    }
+
+    private void refreshScreeningLog() {
+        String log = prefsManager.getLastScreeningLog();
+        tvScreeningLog.setText(log.isEmpty() ? getString(R.string.screening_log_empty) : log);
     }
 
     private void refreshAllowedContacts() {
