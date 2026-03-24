@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+
+    <ImageView
+        android:id="@+id/ivCellIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:contentDescription="@string/menu_item_icon_desc"
+        android:src="@android:drawable/sym_def_app_icon" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvCellTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/main_text"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:text="Кнопка" />
+
+        <TextView
+            android:id="@+id/tvCellSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/muted_text"
+            android:textSize="13sp"
+            android:text="Тип и данные" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnCellDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:minWidth="90dp"
+        android:text="@string/btn_delete"
+        android:textSize="12sp"
+        android:textColor="@color/main_text"
+        android:backgroundTint="@color/tile_sos" />
+
+</LinearLayout>

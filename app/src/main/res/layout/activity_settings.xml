@@ -9,25 +9,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:paddingBottom="32dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Настройки GrandLauncher"
-            android:textSize="24sp"
+            android:text="@string/settings_title"
+            android:textSize="30sp"
             android:textStyle="bold"
-            android:gravity="center"
-            android:layout_marginBottom="24dp"
-            android:textColor="@color/text_color"/>
+            android:textColor="@color/main_text" />
 
-        <!-- КАРТОЧКА 1: Защита от спама -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/settings_subtitle_admin"
+            android:textColor="@color/muted_text" />
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp">
+            android:layout_marginBottom="14dp"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/surface_main">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -36,28 +43,38 @@
                 android:padding="16dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Защита звонков"
+                    android:text="@string/section_security"
                     android:textStyle="bold"
                     android:textSize="18sp"
-                    android:textColor="@color/text_color"
-                    android:layout_marginBottom="8dp"/>
+                    android:textColor="@color/main_text" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/section_security_desc_admin"
+                    android:textColor="@color/muted_text" />
+
                 <Button
                     android:id="@+id/btnRequestRole"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Включить блокировку чужих" />
+                    android:text="@string/btn_enable_blocking"
+                    android:textColor="@color/action_on_primary"
+                    android:backgroundTint="@color/action_primary" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- КАРТОЧКА 2: Настройка SOS -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp">
+            android:layout_marginBottom="14dp"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/surface_main">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -66,98 +83,184 @@
                 android:padding="16dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Кнопка SOS"
+                    android:text="@string/section_allowed_contacts"
                     android:textStyle="bold"
                     android:textSize="18sp"
-                    android:textColor="@color/text_color"/>
+                    android:textColor="@color/main_text" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/section_allowed_contacts_desc"
+                    android:textColor="@color/muted_text" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@color/tile_default" />
+
+                <EditText
+                    android:id="@+id/etName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_contact_name"
+                    android:inputType="textPersonName"
+                    android:background="@color/input_bg"
+                    android:padding="12dp" />
+
+                <EditText
+                    android:id="@+id/etNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/hint_contact_number"
+                    android:inputType="phone"
+                    android:background="@color/input_bg"
+                    android:padding="12dp" />
+
+                <TextView
+                    android:id="@+id/tvSelectedContactIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/icon_selected_default"
+                    android:textColor="@color/muted_text" />
+
+                <Button
+                    android:id="@+id/btnPickContactIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/btn_pick_icon"
+                    android:textColor="@color/main_text"
+                    android:backgroundTint="@color/tile_default" />
+
+                <Button
+                    android:id="@+id/btnAddContact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/btn_add_allowed_contact"
+                    android:textColor="@color/main_text"
+                    android:backgroundTint="@color/tile_contact" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvAllowedContacts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:nestedScrollingEnabled="false" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/surface_main">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/section_main_cells"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/main_text" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/section_main_cells_desc"
+                    android:textColor="@color/muted_text" />
+
+                <Button
+                    android:id="@+id/btnAddApp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/btn_add_app"
+                    android:textColor="@color/main_text"
+                    android:backgroundTint="@color/tile_app" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvMainCells"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:nestedScrollingEnabled="false" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/surface_main">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/section_sos"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/main_text" />
 
                 <EditText
                     android:id="@+id/etSosNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Номер для экстренного вызова"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/hint_sos_number"
                     android:inputType="phone"
-                    android:layout_marginTop="8dp"/>
+                    android:background="@color/input_bg"
+                    android:padding="12dp" />
 
                 <Button
                     android:id="@+id/btnSaveSos"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Сохранить номер SOS"
-                    android:backgroundTint="@color/pastel_red"
-                    android:textColor="@color/text_color"/>
+                    android:layout_marginTop="10dp"
+                    android:text="@string/btn_save_sos"
+                    android:textColor="@color/main_text"
+                    android:backgroundTint="@color/tile_sos" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="14dp"
+                    android:background="@color/tile_default" />
+
+                <Button
+                    android:id="@+id/btnKillLauncher"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_system_settings"
+                    android:textColor="@color/main_text"
+                    android:backgroundTint="@color/tile_default" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-
-        <!-- КАРТОЧКА 3: Добавление Контактов и Приложений -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Добавить на главный экран"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:textColor="@color/text_color"
-                    android:layout_marginBottom="16dp"/>
-
-                <!-- Добавить контакт -->
-                <EditText
-                    android:id="@+id/etName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Имя (например: Дочь)"
-                    android:inputType="textPersonName" />
-                <EditText
-                    android:id="@+id/etNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Номер телефона"
-                    android:inputType="phone"
-                    android:layout_marginBottom="8dp"/>
-                <Button
-                    android:id="@+id/btnAddContact"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="+ Добавить контакт"
-                    android:backgroundTint="@color/pastel_green"
-                    android:textColor="@color/text_color"
-                    android:layout_marginBottom="24dp"/>
-
-                <!-- Добавить приложение -->
-                <Button
-                    android:id="@+id/btnAddApp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="+ Выбрать приложение"
-                    android:backgroundTint="@color/pastel_blue"
-                    android:textColor="@color/text_color"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Выход из лаунчера -->
-        <Button
-            android:id="@+id/btnKillLauncher"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="Выйти (Системные настройки)"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="32dp"
-            android:backgroundTint="@color/pastel_grey"
-            android:textColor="@color/text_color" />
 
     </LinearLayout>
 </ScrollView>

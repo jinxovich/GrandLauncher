@@ -7,10 +7,20 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="bg_color">#FDFBF7</color> <!-- Теплый белый фон -->
-    <color name="pastel_red">#FFB3BA</color> <!-- Для SOS -->
-    <color name="pastel_green">#BAFFC9</color> <!-- Для звонков -->
-    <color name="pastel_blue">#BAE1FF</color> <!-- Для приложений -->
-    <color name="pastel_grey">#E0E0E0</color> <!-- Настройки -->
-    <color name="text_color">#333333</color> <!-- Темно-серый для контраста -->
+    <color name="bg_color">#F4F6FA</color>
+    <color name="surface_main">#FFFFFF</color>
+    <color name="main_text">#1B1F29</color>
+    <color name="muted_text">#5D6472</color>
+    <color name="tile_sos">#FFD7D7</color>
+    <color name="tile_contact">#D9F7D9</color>
+    <color name="tile_app">#DDEBFF</color>
+    <color name="tile_default">#E6EAF2</color>
+    <color name="action_primary">#1F4E79</color>
+    <color name="action_on_primary">#FFFFFF</color>
+    <color name="input_bg">#EEF2F8</color>
+    <color name="text_color">#1B1F29</color>
+    <color name="pastel_red">#FFD7D7</color>
+    <color name="pastel_green">#D9F7D9</color>
+    <color name="pastel_blue">#DDEBFF</color>
+    <color name="pastel_grey">#E6EAF2</color>
 </resources>

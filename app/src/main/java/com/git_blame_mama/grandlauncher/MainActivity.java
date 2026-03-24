@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-            tvBattery.setText("Заряд: " + level + "%");
+            tvBattery.setText(getString(R.string.battery_prefix, level));
         }
     };
 
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 4. Защита от случайных изменений (только долгое нажатие)
         btnSettings.setOnClickListener(v ->
-                Toast.makeText(this, "Удерживайте кнопку для настроек", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.toast_hold_for_settings, Toast.LENGTH_SHORT).show()
         );
         btnSettings.setOnLongClickListener(v -> {
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
