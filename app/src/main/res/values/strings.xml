@@ -74,4 +74,6 @@
     <string name="role_banner_active_desc">Входящие звонки не из списка будут заблокированы автоматически</string>
     <string name="screening_log_label">Последний перехваченный звонок:</string>
     <string name="screening_log_empty">Ещё не было входящих с момента установки роли</string>
+    <string name="app_not_found">Приложение не найдено</string>
+    <string name="toast_invalid_phone">Введите корректный номер телефона</string>
 </resources>

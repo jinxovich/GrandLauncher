@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.telecom.Call;
 import android.telecom.CallScreeningService;
-import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
@@ -31,7 +30,7 @@ public class GrandCallScreeningService extends CallScreeningService {
         Set<String> whitelist = new HashSet<>(
                 prefs.getStringSet(PrefsManager.KEY_FAST_WHITELIST, Collections.emptySet()));
 
-        String incoming = normalizeUri(callDetails.getHandle());
+        String incoming = normalizeHandle(callDetails.getHandle());
         boolean allowed = !incoming.isEmpty() && whitelist.contains(incoming);
 
         String ts = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
@@ -58,16 +57,11 @@ public class GrandCallScreeningService extends CallScreeningService {
 
     // ── Нормализация номера ───────────────────────────────────────────────────
 
-    private String normalizeUri(Uri handle) {
+    private static String normalizeHandle(Uri handle) {
         if (handle == null) return "";
         String raw = handle.getSchemeSpecificPart();
         if (raw == null || raw.isEmpty()) return "";
-
-        String n = PhoneNumberUtils.normalizeNumber(raw);
-        if (n == null) return "";
-        String digits = n.replaceAll("[^0-9]", "");
-        if (digits.isEmpty()) return "";
-        return digits.length() > 10 ? digits.substring(digits.length() - 10) : digits;
+        return PhoneUtils.normalize(raw);
     }
 
     // ── Ответы ────────────────────────────────────────────────────────────────

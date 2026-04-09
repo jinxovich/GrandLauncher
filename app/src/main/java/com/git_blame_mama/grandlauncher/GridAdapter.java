@@ -1,8 +1,6 @@
 package com.git_blame_mama.grandlauncher;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +43,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.GridViewHolder
         Context context = holder.itemView.getContext();
 
         holder.tvLabel.setText(item.label);
-        holder.ivIcon.setImageDrawable(resolveIcon(context, item));
+        holder.ivIcon.setImageDrawable(IconResolver.resolve(context, item));
 
         int colorResId;
         switch (item.type) {
@@ -65,39 +63,6 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.GridViewHolder
 
         holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, colorResId));
         holder.itemView.setOnClickListener(v -> listener.onItemClick(item));
-    }
-
-    private Drawable resolveIcon(Context context, GridItem item) {
-        if (item.type == GridItem.Type.APP) {
-            try {
-                return context.getPackageManager().getApplicationIcon(item.data);
-            } catch (PackageManager.NameNotFoundException e) {
-                return ContextCompat.getDrawable(context, android.R.drawable.sym_def_app_icon);
-            }
-        }
-        return ContextCompat.getDrawable(context, getContactIconRes(item));
-    }
-
-    private int getContactIconRes(GridItem item) {
-        if (item.type == GridItem.Type.SOS) {
-            return android.R.drawable.stat_notify_error;
-        }
-        if (item.iconKey == null || item.iconKey.isEmpty()) {
-            return android.R.drawable.sym_action_call;
-        }
-        switch (item.iconKey) {
-            case "family":
-                return android.R.drawable.ic_menu_myplaces;
-            case "home":
-                return android.R.drawable.ic_menu_mylocation;
-            case "doctor":
-                return android.R.drawable.ic_menu_info_details;
-            case "favorite":
-                return android.R.drawable.btn_star_big_on;
-            case "phone":
-            default:
-                return android.R.drawable.sym_action_call;
-        }
     }
 
     @Override

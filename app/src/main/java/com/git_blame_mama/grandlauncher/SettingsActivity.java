@@ -135,14 +135,16 @@ public class SettingsActivity extends AppCompatActivity {
         btnAddContact.setOnClickListener(v -> {
             String name = this.etName.getText().toString().trim();
             String number = this.etNumber.getText().toString().trim();
-            if(!name.isEmpty() && !number.isEmpty()) {
+            if (name.isEmpty() || number.isEmpty()) {
+                Toast.makeText(this, R.string.toast_fill_fields, Toast.LENGTH_SHORT).show();
+            } else if (!isValidPhone(number)) {
+                Toast.makeText(this, R.string.toast_invalid_phone, Toast.LENGTH_SHORT).show();
+            } else {
                 prefsManager.addOrUpdateAllowedContact(name, number, selectedContactIconKey);
                 Toast.makeText(this, R.string.toast_allowed_contact_saved, Toast.LENGTH_SHORT).show();
                 this.etName.setText("");
                 this.etNumber.setText("");
                 refreshAllowedContacts();
-            } else {
-                Toast.makeText(this, R.string.toast_fill_fields, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -306,6 +308,15 @@ public class SettingsActivity extends AppCompatActivity {
                 })
                 .setNegativeButton(R.string.dialog_cancel, null)
                 .show();
+    }
+
+    /** Номер считается валидным, если содержит минимум 5 цифр. */
+    private static boolean isValidPhone(String number) {
+        int digitCount = 0;
+        for (char c : number.toCharArray()) {
+            if (Character.isDigit(c)) digitCount++;
+        }
+        return digitCount >= 5;
     }
 
     private boolean safeEquals(String first, String second) {

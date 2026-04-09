@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         if (launchIntent != null) {
             startActivity(launchIntent);
         } else {
-            Toast.makeText(this, "Приложение не найдено", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.app_not_found, Toast.LENGTH_SHORT).show();
         }
     }
 }

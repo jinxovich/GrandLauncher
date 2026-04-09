@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -46,10 +45,8 @@ public class AllowedContactsAdapter extends RecyclerView.Adapter<AllowedContacts
         AllowedContact contact = contacts.get(position);
         holder.tvName.setText(contact.name);
         holder.tvNumber.setText(contact.number);
-        holder.ivContactIcon.setImageDrawable(ContextCompat.getDrawable(
-                holder.itemView.getContext(),
-                getIconRes(contact.iconKey)
-        ));
+        holder.ivContactIcon.setImageDrawable(
+                IconResolver.resolveByKey(holder.itemView.getContext(), contact.iconKey));
 
         holder.btnAddToMain.setOnClickListener(v -> listener.onAddToMain(contact));
         holder.btnDelete.setOnClickListener(v -> listener.onDelete(contact));
@@ -58,25 +55,6 @@ public class AllowedContactsAdapter extends RecyclerView.Adapter<AllowedContacts
     @Override
     public int getItemCount() {
         return contacts.size();
-    }
-
-    private int getIconRes(String iconKey) {
-        if (iconKey == null || iconKey.isEmpty()) {
-            return android.R.drawable.sym_action_call;
-        }
-        switch (iconKey) {
-            case "family":
-                return android.R.drawable.ic_menu_myplaces;
-            case "home":
-                return android.R.drawable.ic_menu_mylocation;
-            case "doctor":
-                return android.R.drawable.ic_menu_info_details;
-            case "favorite":
-                return android.R.drawable.btn_star_big_on;
-            case "phone":
-            default:
-                return android.R.drawable.sym_action_call;
-        }
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

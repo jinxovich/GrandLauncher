@@ -2,8 +2,6 @@ package com.git_blame_mama.grandlauncher;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.telephony.PhoneNumberUtils;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -134,14 +132,9 @@ public class PrefsManager {
 
     // ── Утилиты ───────────────────────────────────────────────────────────────
 
-    /** Нормализация: убираем форматирование, оставляем последние 10 цифр. */
+    /** @deprecated Use {@link PhoneUtils#normalize(String)} directly. */
     static String normalizeNumber(String raw) {
-        if (raw == null) return "";
-        String n = PhoneNumberUtils.normalizeNumber(raw);
-        if (n == null) return "";
-        String digits = n.replaceAll("[^0-9]", "");
-        if (digits.isEmpty()) return "";
-        return digits.length() > 10 ? digits.substring(digits.length() - 10) : digits;
+        return PhoneUtils.normalize(raw);
     }
 
     private boolean containsNumber(List<AllowedContact> contacts, String number) {
